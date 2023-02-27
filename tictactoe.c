@@ -49,10 +49,14 @@ char** createboard(int board_sz)
 } // createboard
 
 // Returns true if the game is a draw
-int isdraw(char** Board, int board_sz) {
-    for(int i = 0; i < board_sz; ++i) {
-        for(int j = 0; j < board_sz; ++j) {
-            if (Board[i][j] == ' ') {
+int isdraw(char** Board, int board_sz)
+{
+    for(int i = 0; i < board_sz; ++i)
+    {
+        for(int j = 0; j < board_sz; ++j)
+        {
+            if (Board[i][j] == ' ')
+            {
                 // Empty square, so game ain't over yet
                 return 0;
             } // if
@@ -132,8 +136,60 @@ char winningmove( char** Board, int board_sz, int row, int col )
     return 0;
 } // winninmove
 
+// Checks to see if there is a winner for 3 in a row
+char connect3win(char **Board, int board_sz, int row, int col)
+{
+    char player = Board[row][col];
+    // Checks horizontal
+    for (int co = 0; co < board_sz - 2; co++)
+    {
+        if (Board[row][co] == player && Board[row][co + 1] == player
+        	&& Board[row][co + 2] == player)
+        {
+            return player;
+        } // if
+    } // for
+
+    // Checks vertical
+    for (int ro = 0; ro < board_sz - 2; ro++)
+    {
+        if (Board[ro][col] == player && Board[ro + 1][col]  == player
+        	&& Board[ro + 2][col] == player)
+        {
+            return player;
+        } // if
+    } // for
+
+    //  Checks forward diagonal
+    for (int co = 0; co < board_sz - 2; co++)
+    {
+        for (int ro = 0; ro < board_sz - 2; ro++)
+        {
+            if (Board[ro][co] == player && Board[ro + 1][co + 1]  == player
+            	&& Board[ro + 2][co + 2] == player)
+            {
+                return player;
+            } // if
+        } // for
+    } // for
+
+    // Checks reverse diagonal
+    for (int co = board_sz - 1; co > 1; co--)
+    {
+        for (int ro = 0; ro <= board_sz - 2; ro++)
+        {
+            if (Board[ro][co] == player && Board[ro + 1][co - 1]  == player
+            	&& Board[ro + 2][co - 2] == player)
+            {
+                return player;
+            } // if
+        } // for
+    } // for
+    return 0;
+} // connect3win
+
 // Runs the loop for one game of tictactoe
-int play_tictactoe(int board_sz, int computer_enabled)
+int play_tictactoe(int board_sz, int computer_enabled, int connect3)
 {
     char winner = '\0';
     char row;
@@ -248,7 +304,16 @@ int play_tictactoe(int board_sz, int computer_enabled)
             {
                 turn = 'X';
       		} // if
-      		winner = winningmove( Board, board_sz, rowind, colind );
+
+            // Determines which win conditions to use
+            if (connect3)
+            {
+                winner = connect3win(Board, board_sz, rowind, colind);
+            }
+            else
+            {
+                winner = winningmove( Board, board_sz, rowind, colind );
+            } // if
     	}
         else
         {
