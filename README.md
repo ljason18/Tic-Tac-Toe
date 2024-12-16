@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 ## Project Description
-An implementation of tic-tac-toe built to be played from the terminal. Can be played against a computer or with two players. Allows for user to change the size of the board with some constraint on the maximum and minimum size. And the program can provide tips on what a player's next move is.
+An implementation of tic-tac-toe built to be played from the terminal/command line. There are two modes of play: 2-player or 1 player against a computer. Allows for user to change the size of the board with some constraint on the maximum and minimum size. And the program can provide tips on what a player's next move should be.
 
 ## Requirements
 - gcc
